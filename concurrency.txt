@@ -1,0 +1,56 @@
+GOROUTINES
+Lightweight threads managed by the Go runtime
+Lighter than operating system threads
+Allow us to write asynchronous parallel programs that execute faster than sequential tasks
+They are functions trhat are run independently of other goroutines
+To create a goroutine the "go" keyword is added in front of a function call
+
+Can map millions of goroutines on the same OS thread 
+Require fewer resources for similar performance results, compared to languages like Java
+
+
+CHANNELS
+Provide communication between goroutines
+Pipeline that goroutines can send and receive data from other goroutines
+Assigned using the built-in function "make"
+Sending and receiving is accomplished using the channel operator -> or <-
+
+// can specify an optional parameter (integer in below case) and a buffer channel of the size provided is allocated
+// Creates a buffered channel of integers with the size 100
+myChannel := make(chan int, 100)
+myChannel <- 10
+
+Unbuffered channels are synchronous and can only contain one item at a time
+Once a goroutine places an item of data into an unbuffered channel, no other goroutines can place data in it, unless another goroutine takes out whatever is in the unbuffered channel first
+Send and receive are blocking operations, can be used to communicate the state of a channel
+
+
+WAITGROUPS
+Ensures our code waits for goroutines run to completion 
+Can wait for groups of goroutines to finish executing
+The main goroutine makes a call to add, specifying the number of goroutines to wait for 
+Then a call to wait to wait for the goroutines to run
+Each goroutine runs and makes a call to done when finished
+Is from the package "sync"
+
+
+SELECT STATEMENTS
+Similar to switch but for channels
+Allow us to wait on multiple channel operations
+Execution is dependent on which case produces output the earliest
+If multiple cases are ready, case is randomly chosen
+
+
+MUTEXES
+Mutex (mutual exclusion) allows us to synchronise data access without channels, using explicit locking
+Allow us to provide concurrent access to data for goroutines
+Basically before data is accessed or modified it must be locked
+Make a call to sync.lock to lock a variable, and sync.unlock to unlock
+
+
+CONFINEMENT
+Strategy for making a program concurrency-safe
+Prevents multiple threads from direct reads/writes, used to avoid race conditions
+Confines the mutable data to one thread at a time
+Confined variables are confined to one goroutine, and other goroutines must use a channel to send a request to the confining goroutine, in order to read or update the variable
+
